@@ -1,1 +1,131 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI - Video Content Engine</title>
+    <!-- Tailwind CSS for Layout structure -->
+    <script src="https://tailwindcss.com"></script>
+    <!-- Chart.js for High-End Custom Data Visualization -->
+    <script src="https://jsdelivr.net"></script>
+    <!-- Custom CSS for Premium UI Look -->
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; }
+        .glass-panel { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #374151; }
+        .active-tab { background-color: #2563eb !important; color: white !important; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+    </style>
+</head>
+<body class="text-gray-100 antialiased overflow-hidden custom-scrollbar">
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="flex h-screen w-screen overflow-hidden">
+        
+        <!-- SIDEBAR NAVIGATION (Large System feel) -->
+        <aside class="w-64 border-r border-gray-800/60 bg-[#0d1220] p-5 flex flex-col justify-between shrink-0">
+            <div>
+                <!-- Brand Engine Logo -->
+                <div class="flex items-center gap-3 mb-8 px-2">
+                    <div class="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-600/30">N</div>
+                    <div>
+                        <h2 class="text-base font-bold tracking-tight text-white">NEXUS CORE</h2>
+                        <p class="text-[10px] text-gray-500 font-medium tracking-wider uppercase">Video Engine Dev</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Triggers JavaScript Component Switching) -->
+                <div class="space-y-1">
+                    <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider px-3 mb-2">Workspace</p>
+                    <button onclick="switchTab('studio')" id="btn-studio" class="active-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-gray-200 transition-all text-left">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        Video Studio Engine
+                    </button>
+                    <button onclick="switchTab('analytics')" id="btn-analytics" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-gray-200 transition-all text-left">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2"></path></svg>
+                        Server Data Analytics
+                    </button>
+                    <button onclick="switchTab('assets')" id="btn-assets" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800/40 hover:text-gray-200 transition-all text-left">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.58 4 8 4s4-1.79 4-4V7M4 7c0 2.21 3.58 4 8 4s4-1.79 4-4M4 7c0-2.21 3.58-4 8-4s4 1.79 4 4m0 5c0 2.21-3.58 4-8 4s-4-1.79-4-4"></path></svg>
+                        Media Cloud Library
+                    </button>
+                </div>
+            </div>
+
+            <!-- Developer Profile Metadata Info (Pure Custom Coding Vibe) -->
+            <div class="border-t border-gray-800/80 pt-4 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="h-8 w-8 rounded-full bg-indigo-600/30 flex items-center justify-center text-xs font-bold text-indigo-400">SS</div>
+                    <div>
+                        <h4 class="text-xs font-semibold text-gray-200">Satendra S.</h4>
+                        <p class="text-[10px] text-emerald-400 flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Node Core Live</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT CONTAINER -->
+        <div class="flex-1 flex flex-col min-w-0">
+            
+            <!-- SUB-HEADER BAR -->
+            <header class="h-16 border-b border-gray-800/50 bg-[#0c101d] px-8 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <span id="view-title" class="text-base font-semibold text-white">Video Studio Engine</span>
+                </div>
+                <div class="flex items-center gap-4 text-xs">
+                    <div class="bg-gray-800/50 border border-gray-700/50 rounded-lg px-3 py-1.5 text-gray-400 font-mono">
+                        Latency: <span class="text-emerald-400">14ms</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- DYNAMIC TAB INTERFACES CONTAINER -->
+            <div id="main-viewport" class="flex-1 p-8 overflow-y-auto custom-scrollbar bg-[#090d16]">
+                
+                <!-- SECTION 1: STUDIO WORKSPACE (Default Selected) -->
+                <div id="view-studio" class="grid grid-cols-12 gap-6 h-full">
+                    <!-- Left Configurator Controls (7 Columns) -->
+                    <div class="col-span-12 lg:col-span-7 flex flex-col gap-5">
+                        <div class="glass-panel rounded-xl p-5 flex flex-col gap-4">
+                            <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Pipeline Editor Script</h3>
+                            <textarea id="scriptInput" rows="6" class="w-full bg-gray-900/40 border border-gray-800/80 rounded-lg p-4 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-blue-500 transition resize-none font-mono" placeholder="// Write video block script engine parameters here..."></textarea>
+                            
+                            <!-- Custom Advanced UI Options Row -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Voice Sampling Node</label>
+                                    <select class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-gray-300 focus:outline-none">
+                                        <option>Synthesized Neural Male (HD)</option>
+                                        <option>Dynamic Narrator Female (Studio)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">FPS Interpolation</label>
+                                    <select class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-gray-300 focus:outline-none">
+                                        <option>60 FPS Ultra Render</option>
+                                        <option>24 FPS Cinematic Standard</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button onclick="triggerEnginePipeline()" class="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs tracking-wide uppercase py-3.5 rounded-lg shadow-lg transition-all flex items-center justify-center gap-2">
+                                Execute Video Processing Node
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right System Video Core Display Monitor (5 Columns) -->
+                    <div class="col-span-12 lg:col-span-5 flex flex-col">
+                        <div class="glass-panel rounded-xl p-5 flex-1 flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Engine Live Monitor Output</h3>
+                                <span id="pipeline-status" class="text-[10px] px-2 py-0.5 rounded-md font-mono bg-gray-900 text-gray-500 border border-gray-800">PIPELINE_IDLE</span>
+                            </div>
+
+                            <!-- Screen Canvas Container Simulator -->
+                            <div id="monitorBox" class="flex-1 min-h-[260px] rounded-lg bg-gray-950/90 border border-gray-900 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                                <div id="state-idle" class="space-y-2">
