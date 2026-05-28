@@ -1,162 +1,472 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nexus AI - Video Content Engine</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://tailwindcss.com"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font -->
     <style>
-        @import url('https://googleapis.com');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; }
-        .glass-panel { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .active-tab { background-color: #2563eb !important; color: white !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #090d16;
+            color: white;
+        }
+
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .active-tab {
+            background-color: #2563eb !important;
+            color: white !important;
+        }
+
+        .progress-bar {
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        textarea::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        textarea::-webkit-scrollbar-thumb {
+            background: #2563eb;
+            border-radius: 20px;
+        }
     </style>
 </head>
-<body class="text-gray-100 antialiased bg-[#090d16] p-4 min-h-screen">
 
-    <!-- MAIN APP WRAPPER -->
+<body class="p-4 min-h-screen">
+
+    <!-- MAIN CONTAINER -->
     <div class="max-w-md mx-auto space-y-6 pb-12">
-        
+
         <!-- HEADER -->
         <div class="flex items-center justify-between bg-[#0d1220] p-4 rounded-xl border border-gray-800/60">
+
             <div class="flex items-center gap-3">
-                <div class="h-9 w-9 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white">N</div>
+                <div class="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-lg">
+                    N
+                </div>
+
                 <div>
-                    <h2 class="text-sm font-bold text-white">NEXUS CORE</h2>
-                    <p class="text-[10px] text-gray-500 font-medium uppercase">Video Engine Dev</p>
+                    <h2 class="text-sm font-bold">
+                        NEXUS CORE
+                    </h2>
+
+                    <p class="text-[10px] text-gray-500 uppercase">
+                        Video Engine Dev
+                    </p>
                 </div>
             </div>
+
             <div class="bg-gray-800/50 border border-gray-700/50 rounded-lg px-2 py-1 text-[10px] font-mono text-emerald-400">
                 14ms
             </div>
         </div>
 
-        <!-- NAVIGATION TABS -->
+        <!-- NAVIGATION -->
         <div class="grid grid-cols-3 gap-2 bg-[#0d1220] p-1.5 rounded-xl border border-gray-800/60">
-            <button onclick="switchTab('studio')" id="btn-studio" class="active-tab text-[11px] font-medium text-center py-2.5 rounded-lg text-gray-400 transition-all">Studio</button>
-            <button onclick="switchTab('analytics')" id="btn-analytics" class="text-[11px] font-medium text-center py-2.5 rounded-lg text-gray-400 transition-all">Analytics</button>
-            <button onclick="switchTab('assets')" id="btn-assets" class="text-[11px] font-medium text-center py-2.5 rounded-lg text-gray-400 transition-all">Cloud</button>
+
+            <button
+                onclick="switchTab('studio')"
+                id="btn-studio"
+                class="active-tab text-[11px] font-medium py-2.5 rounded-lg transition-all"
+            >
+                Studio
+            </button>
+
+            <button
+                onclick="switchTab('analytics')"
+                id="btn-analytics"
+                class="text-[11px] font-medium py-2.5 rounded-lg text-gray-400 transition-all"
+            >
+                Analytics
+            </button>
+
+            <button
+                onclick="switchTab('assets')"
+                id="btn-assets"
+                class="text-[11px] font-medium py-2.5 rounded-lg text-gray-400 transition-all"
+            >
+                Cloud
+            </button>
         </div>
 
-        <!-- SECTION 1: STUDIO WORKSPACE -->
+        <!-- STUDIO VIEW -->
         <div id="view-studio" class="space-y-4">
+
+            <!-- INPUT PANEL -->
             <div class="glass-panel rounded-xl p-4 space-y-4">
-                <h3 class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Pipeline Editor Script</h3>
-                <textarea id="scriptInput" rows="4" class="w-full bg-gray-900/60 border border-gray-800 rounded-lg p-3 text-xs text-gray-200 placeholder-gray-600 focus:outline-none focus:border-blue-500 transition resize-none font-mono" placeholder="// Write script here...">Create a cinematic clip</textarea>
-                
+
+                <h3 class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">
+                    Pipeline Editor Script
+                </h3>
+
+                <textarea
+                    id="scriptInput"
+                    rows="5"
+                    class="w-full bg-gray-900/60 border border-gray-800 rounded-lg p-3 text-xs text-gray-200 placeholder-gray-600 focus:outline-none focus:border-blue-500 resize-none"
+                    placeholder="// Write your cinematic AI prompt..."
+                >Create a cinematic futuristic city video with dramatic narration</textarea>
+
+                <!-- OPTIONS -->
                 <div class="grid grid-cols-2 gap-3">
+
                     <div>
-                        <label class="block text-[10px] font-semibold text-gray-500 uppercase mb-1">Voice Node</label>
-                        <select class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-[11px] text-gray-300 focus:outline-none">
+                        <label class="block text-[10px] uppercase text-gray-500 mb-1 font-semibold">
+                            Voice Node
+                        </label>
+
+                        <select class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-[11px]">
                             <option>Neural Male (HD)</option>
                             <option>Narrator Female</option>
+                            <option>Cinematic AI Voice</option>
                         </select>
                     </div>
+
                     <div>
-                        <label class="block text-[10px] font-semibold text-gray-500 uppercase mb-1">FPS Render</label>
-                        <select class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-[11px] text-gray-300 focus:outline-none">
+                        <label class="block text-[10px] uppercase text-gray-500 mb-1 font-semibold">
+                            FPS Render
+                        </label>
+
+                        <select class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-[11px]">
                             <option>60 FPS Ultra</option>
+                            <option>30 FPS Smooth</option>
                             <option>24 FPS Standard</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- BUTTON -->
-                <button onclick="triggerEnginePipeline()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wider uppercase py-3.5 rounded-lg shadow-lg transition-all block text-center">
+                <button
+                    onclick="triggerEnginePipeline()"
+                    class="w-full bg-blue-600 hover:bg-blue-700 transition-all text-white text-xs font-bold uppercase tracking-wider py-3.5 rounded-lg shadow-lg"
+                >
                     Execute Processing Node
                 </button>
             </div>
 
-            <!-- MONITOR OUTPUT -->
+            <!-- OUTPUT PANEL -->
             <div class="glass-panel rounded-xl p-4 space-y-3">
+
                 <div class="flex justify-between items-center">
-                    <h3 class="text-[11px] font-semibold uppercase text-gray-400">Live Monitor Output</h3>
-                    <span id="pipeline-status" class="text-[9px] px-2 py-0.5 rounded font-mono bg-gray-900 text-gray-500 border border-gray-800">PIPELINE_IDLE</span>
+
+                    <h3 class="text-[11px] uppercase text-gray-400 font-semibold">
+                        Live Monitor Output
+                    </h3>
+
+                    <span
+                        id="pipeline-status"
+                        class="text-[9px] px-2 py-0.5 rounded font-mono bg-gray-900 text-gray-500 border border-gray-800"
+                    >
+                        PIPELINE_IDLE
+                    </span>
                 </div>
 
-                <div id="monitorBox" class="h-40 rounded-lg bg-gray-950 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden border border-gray-900">
-                    <div id="state-idle" class="space-y-1">
-                        <p class="text-xs text-gray-500">Waiting for trigger instructions...</p>
-                    </div>
-                    
-                    <div id="state-rendering" class="hidden space-y-3 w-full px-4">
-                        <div class="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
-                            <div class="h-full w-1/2 bg-blue-500 rounded-full animate-pulse"></div>
-                        </div>
-                        <p id="render-log" class="text-[11px] font-mono text-blue-400">Initializing Buffer Allocation...</p>
+                <!-- MONITOR -->
+                <div
+                    id="monitorBox"
+                    class="h-48 rounded-lg bg-gray-950 border border-gray-900 flex flex-col justify-center items-center relative overflow-hidden p-4"
+                >
+
+                    <!-- IDLE -->
+                    <div id="state-idle" class="text-center">
+                        <p class="text-xs text-gray-500">
+                            Waiting for trigger instructions...
+                        </p>
                     </div>
 
-                    <div id="state-success" class="hidden absolute inset-0 bg-[#050811] p-4 flex flex-col justify-between text-left">
-                        <div class="text-[10px] text-emerald-400 font-mono">RENDER_BLOCK_OK // 1080P</div>
-                        <div class="w-full bg-gray-900/80 p-2 rounded border border-gray-800">
-                            <p class="text-[9px] text-gray-500 font-mono">Captions Stream:</p>
-                            <p id="caption-stream" class="text-xs font-medium text-white italic"></p>
+                    <!-- RENDERING -->
+                    <div id="state-rendering" class="hidden w-full px-4 space-y-4">
+
+                        <div class="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
+                            <div
+                                id="progress-bar"
+                                class="progress-bar h-full bg-blue-500 rounded-full"
+                            ></div>
                         </div>
+
+                        <p
+                            id="render-log"
+                            class="text-[11px] text-blue-400 font-mono text-center"
+                        >
+                            Initializing Engine...
+                        </p>
+                    </div>
+
+                    <!-- SUCCESS -->
+                    <div
+                        id="state-success"
+                        class="hidden absolute inset-0 bg-[#050811] p-4 flex flex-col justify-between"
+                    >
+
+                        <div class="flex items-center justify-between">
+                            <div class="text-[10px] text-emerald-400 font-mono">
+                                RENDER_SUCCESS // 1080P
+                            </div>
+
+                            <div class="text-[10px] text-gray-500">
+                                MP4 Exported
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-900/80 border border-gray-800 rounded-lg p-3 space-y-2">
+
+                            <p class="text-[10px] text-gray-500 font-mono">
+                                Generated Caption:
+                            </p>
+
+                            <p
+                                id="caption-stream"
+                                class="text-sm italic text-white"
+                            ></p>
+                        </div>
+
+                        <button
+                            onclick="downloadVideo()"
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 transition-all py-2 rounded-lg text-xs font-bold uppercase"
+                        >
+                            Download Render
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SECTION 2: ANALYTICS -->
+        <!-- ANALYTICS -->
         <div id="view-analytics" class="hidden space-y-4">
+
             <div class="grid grid-cols-2 gap-3">
-                <div class="glass-panel p-4 rounded-xl"><p class="text-[10px] text-gray-500">API Queries</p><h3 class="text-lg font-bold text-white">412,982</h3></div>
-                <div class="glass-panel p-4 rounded-xl"><p class="text-[10px] text-gray-500">Success Rate</p><h3 class="text-lg font-bold text-emerald-400">99.84%</h3></div>
-                <div class="glass-panel p-4 rounded-xl"><p class="text-[10px] text-gray-500">Network Pipes</p><h3 class="text-lg font-bold text-blue-400">4.2 Gbps</h3></div>
-                <div class="glass-panel p-4 rounded-xl"><p class="text-[10px] text-gray-500">Node Clusters</p><h3 class="text-lg font-bold text-purple-400">3 Online</h3></div>
+
+                <div class="glass-panel p-4 rounded-xl">
+                    <p class="text-[10px] text-gray-500">
+                        API Queries
+                    </p>
+
+                    <h3 class="text-lg font-bold">
+                        412,982
+                    </h3>
+                </div>
+
+                <div class="glass-panel p-4 rounded-xl">
+                    <p class="text-[10px] text-gray-500">
+                        Success Rate
+                    </p>
+
+                    <h3 class="text-lg font-bold text-emerald-400">
+                        99.84%
+                    </h3>
+                </div>
+
+                <div class="glass-panel p-4 rounded-xl">
+                    <p class="text-[10px] text-gray-500">
+                        Network Pipes
+                    </p>
+
+                    <h3 class="text-lg font-bold text-blue-400">
+                        4.2 Gbps
+                    </h3>
+                </div>
+
+                <div class="glass-panel p-4 rounded-xl">
+                    <p class="text-[10px] text-gray-500">
+                        Node Clusters
+                    </p>
+
+                    <h3 class="text-lg font-bold text-purple-400">
+                        3 Online
+                    </h3>
+                </div>
             </div>
         </div>
 
-        <!-- SECTION 3: MEDIA CLOUD -->
+        <!-- CLOUD -->
         <div id="view-assets" class="hidden space-y-3">
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between"><div class="text-xs font-semibold text-white">AWS-S3-Bucket-Storage</div><span class="text-[10px] text-blue-400">Active</span></div>
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between"><div class="text-xs font-semibold text-white">Cloudinary-CDN-Mirror</div><span class="text-[10px] text-blue-400">Active</span></div>
+
+            <div class="glass-panel p-4 rounded-xl flex justify-between items-center">
+                <div class="text-xs font-semibold">
+                    AWS-S3-Bucket-Storage
+                </div>
+
+                <span class="text-[10px] text-blue-400">
+                    Active
+                </span>
+            </div>
+
+            <div class="glass-panel p-4 rounded-xl flex justify-between items-center">
+                <div class="text-xs font-semibold">
+                    Cloudinary-CDN-Mirror
+                </div>
+
+                <span class="text-[10px] text-blue-400">
+                    Active
+                </span>
+            </div>
         </div>
 
-        <!-- DEVELOPER FOOTER -->
+        <!-- FOOTER -->
         <div class="text-center text-[10px] text-gray-600 font-mono">
             Engine Live // Satendra S.
         </div>
     </div>
 
-    <!-- CODE CONTROLLER MODULE -->
+    <!-- JAVASCRIPT -->
     <script>
+
+        // TAB SWITCHING
         function switchTab(tabId) {
-            ['studio', 'analytics', 'assets'].forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden');
-                document.getElementById(`btn-${v}`).classList.remove('active-tab');
+
+            const tabs = ['studio', 'analytics', 'assets'];
+
+            tabs.forEach(tab => {
+
+                document
+                    .getElementById(`view-${tab}`)
+                    .classList.add('hidden');
+
+                document
+                    .getElementById(`btn-${tab}`)
+                    .classList.remove('active-tab');
             });
-            document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            document.getElementById(`btn-${tabId}`).classList.add('active-tab');
+
+            document
+                .getElementById(`view-${tabId}`)
+                .classList.remove('hidden');
+
+            document
+                .getElementById(`btn-${tabId}`)
+                .classList.add('active-tab');
         }
 
+        // MAIN PIPELINE
         function triggerEnginePipeline() {
-            const userInput = document.getElementById('scriptInput').value.trim();
-            if(!userInput) { alert('Input box empty!'); return; }
 
-            document.getElementById('state-idle').classList.add('hidden');
-            document.getElementById('state-success').classList.add('hidden');
-            document.getElementById('state-rendering').classList.remove('hidden');
-            
-            const logElement = document.getElementById('render-log');
-            const status = document.getElementById('pipeline-status');
+            const userInput =
+                document.getElementById('scriptInput').value.trim();
 
+            if (!userInput) {
+                alert('Please enter a script!');
+                return;
+            }
+
+            const idle =
+                document.getElementById('state-idle');
+
+            const rendering =
+                document.getElementById('state-rendering');
+
+            const success =
+                document.getElementById('state-success');
+
+            const progressBar =
+                document.getElementById('progress-bar');
+
+            const renderLog =
+                document.getElementById('render-log');
+
+            const status =
+                document.getElementById('pipeline-status');
+
+            const caption =
+                document.getElementById('caption-stream');
+
+            // RESET STATES
+            idle.classList.add('hidden');
+            success.classList.add('hidden');
+            rendering.classList.remove('hidden');
+
+            progressBar.style.width = '0%';
+
+            // STATUS
             status.innerText = 'FFMPEG_COMPILING';
-            status.className = 'text-[9px] px-2 py-0.5 rounded font-mono bg-blue-950 text-blue-400 border border-blue-900';
 
-            setTimeout(() => { logElement.innerText = 'Syncing Audio Track Vectors...'; }, 1000);
-            setTimeout(() => { logElement.innerText = 'Generating Captions Blocks...'; }, 2000);
-            
+            status.className =
+                'text-[9px] px-2 py-0.5 rounded font-mono bg-blue-950 text-blue-400 border border-blue-900';
+
+            // STEP 1
             setTimeout(() => {
-                document.getElementById('state-rendering').classList.add('hidden');
-                document.getElementById('state-success').classList.remove('hidden');
-                document.getElementById('caption-stream').innerText = `"${userInput}"`;
-                
+                progressBar.style.width = '25%';
+                renderLog.innerText =
+                    'Allocating GPU Resources...';
+            }, 500);
+
+            // STEP 2
+            setTimeout(() => {
+                progressBar.style.width = '50%';
+                renderLog.innerText =
+                    'Syncing Audio Track Vectors...';
+            }, 1500);
+
+            // STEP 3
+            setTimeout(() => {
+                progressBar.style.width = '75%';
+                renderLog.innerText =
+                    'Generating Captions Blocks...';
+            }, 2500);
+
+            // STEP 4
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+                renderLog.innerText =
+                    'Finalizing Render Output...';
+            }, 3500);
+
+            // SUCCESS
+            setTimeout(() => {
+
+                rendering.classList.add('hidden');
+                success.classList.remove('hidden');
+
+                caption.innerText = `"${userInput}"`;
+
                 status.innerText = 'SUCCESS_200';
-                status.className = 'text-[9px] px-2 py-0.5 rounded font-mono bg-emerald-950 text-emerald-400 border border-emerald-900';
-            }, 3000);
+
+                status.className =
+                    'text-[9px] px-2 py-0.5 rounded font-mono bg-emerald-950 text-emerald-400 border border-emerald-900';
+
+            }, 4500);
         }
+
+        // DOWNLOAD FUNCTION
+        function downloadVideo() {
+
+            const text =
+                'NEXUS AI VIDEO RENDER COMPLETE';
+
+            const blob =
+                new Blob([text], { type: 'text/plain' });
+
+            const url =
+                window.URL.createObjectURL(blob);
+
+            const a =
+                document.createElement('a');
+
+            a.href = url;
+            a.download = 'nexus_render.txt';
+
+            a.click();
+
+            window.URL.revokeObjectURL(url);
+        }
+
     </script>
+
 </body>
 </html>
